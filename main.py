@@ -1,5 +1,9 @@
 from enum import Enum
 from time import sleep
+import threading  
+
+# maybe there will have a thread just for checking if
+# there are dopamine in receptors
 
 class ActionType(Enum):
   play_with_friends = 'play_with_friends'
@@ -23,13 +27,16 @@ class Excitable:
       self.excitement_level -= amount
 
 class DopamineReceptor:
+  dopamine_presence = False
+  
   def __init__(self, neuron: Excitable):
     self.neuron = neuron
   
-  def trigger_dopamine_release(self):
-    self.neuron.increase_excitement(1)
-    sleep(0.2)  
-    self.neuron.decrease_excitement(1)
+  def trigger_dopamine_release(self, time = 1):
+    print('Dopamine released')
+    self.dopamine_presence = True
+    sleep(time)
+    self.dopamine_presence = False
     
     
 class D2DopamineReceptor(DopamineReceptor):
@@ -49,7 +56,8 @@ class Neuron(Excitable):
       self.d1_dopamine_receptors = d1_dopamine_receptors
       self.d2_dopamine_receptors = d2_dopamine_receptors
 
-  def trigger_action(self):
+  def trigger_potential_dopamine_action(self):
+
     pass
 
   def add_d1_dopamine_receptor(self, receptor: D1DopamineReceptor):
@@ -73,4 +81,26 @@ class Brain:
   def execute_action(self, action):
     pass
     
-  
+def check_dopamine_for_receptor(receptor: DopamineReceptor):
+  print('Checking dopamine presence for receptor...')
+
+  while(True):
+    if receptor.dopamine_presence:
+      print('Has dopamine')
+    else:
+      print('No dopamine')
+    sleep(1)
+
+
+# tests
+
+dopamine_receptor = D1DopamineReceptor()
+
+thread = threading.Thread(target=check_dopamine_for_receptor,args=(dopamine_receptor,))
+
+thread.start()
+
+
+sleep(2)
+
+dopamine_receptor.trigger_dopamine_release()
