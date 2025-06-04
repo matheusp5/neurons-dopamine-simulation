@@ -88,9 +88,6 @@ class D1DopamineReceptor(DopamineReceptor):
     pass
 
 class Neuron(Excitable):
-  d1_dopamine_receptors = []
-  d2_dopamine_receptors = []
-
   def __init__(self, d1_dopamine_receptors: list[D1DopamineReceptor], 
                d2_dopamine_receptors: list[D2DopamineReceptor]):
       self.d1_dopamine_receptors = d1_dopamine_receptors
@@ -113,8 +110,6 @@ class Neuron(Excitable):
     self.d2_dopamine_receptors.append(receptor)
 
 class Brain:
-  neurons = []
-
   def __init__(self, neurons: list[Neuron]):
     self.neurons = neurons
 
@@ -195,11 +190,11 @@ def main():
     char = read_key()
       
     if char.lower() == 'q':
-      # by default, as a multi-threading program
-      # its necessary to kill all child threads
-      # so we can exit the program
+      # by default, as a multi-threading program its 
+      # necessary to kill all child threads
+      # and then we can exit the program.
       # but all threads are daemon threads
-      # deamon threads are killed when the main thread exits
+      # and deamon threads are killed when the main thread exits
       sys.exit(0)
       break;
     else:
