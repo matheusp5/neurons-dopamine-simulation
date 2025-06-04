@@ -130,7 +130,7 @@ class Brain:
     while True:
       for neuron in self.neurons:
         if not neuron.some_receptor_with_dopamine():
-          neuron.decrease_excitement(DOPAMINE_RELEASE_AMOUNT)
+          neuron.decrease_excitement(DOPAMINE_RELEASE_AMOUNT * 2)
 
         sleep(1)
 
@@ -139,7 +139,8 @@ class Brain:
       total_excitement_level = self.get_total_excitement_level()
       current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
-      print(f'{current_time} | Brain excitement level: {total_excitement_level}')
+      msg = f'{current_time} | Brain excitement level: {total_excitement_level}'
+      print('\r' + msg.ljust(80), end='', flush=True)
 
       sleep(1)
 
